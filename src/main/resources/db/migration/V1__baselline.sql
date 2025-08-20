@@ -2,7 +2,7 @@ create table users (
     id uuid primary key,
     name varchar(120) not null,
     email varchar(180) not null unique,
-    password_hash varchar(120) not null,
+    password varchar(120) not null,
     role varchar(20) not null,
     active boolean not null default true,
     created_at timestamp not null,

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -21,14 +20,19 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
+    private final AccountPayableService accountPayableService;
     private final UserRepository userRepository;
 
 
     public PaymentDTO create(PaymentDTO dto) {
         User processedBy = userRepository.findById(dto.processedBy()).orElseThrow(() ->
                 new ResourceNotFoundException("User with ID " + dto.processedBy() + " not found"));
+
+        AccountPayable account = accountPayableService.findById(dto.accountId());
+
         Payment payment = new Payment();
         payment = paymentMapper.toEntity(payment, dto);
+        payment.setAccount(account);
         payment.setProcessedBy(processedBy);
         paymentRepository.save(payment);
         return dto;
@@ -55,6 +59,6 @@ public class PaymentService {
         return paymentRepository.findAll()
                 .stream()
                 .map(paymentMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
