@@ -12,4 +12,5 @@ public interface AccountPayableRepository extends JpaRepository<AccountPayable, 
     List<AccountPayable> findByStatus(AccountStatus status);
     List<AccountPayable> findByDueDateBetween(LocalDate from, LocalDate to);
     List<AccountPayable> findBySupplier_Id(UUID supplierId);
+    boolean existsByDescriptionAndSupplierId(String description, UUID supplierId);
 }

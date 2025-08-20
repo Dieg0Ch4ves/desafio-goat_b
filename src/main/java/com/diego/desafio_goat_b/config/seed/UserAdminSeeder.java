@@ -1,4 +1,4 @@
-package com.diego.desafio_goat_b.bootstrap;
+package com.diego.desafio_goat_b.config.seed;
 
 import com.diego.desafio_goat_b.domain.entity.User;
 import com.diego.desafio_goat_b.domain.enums.UserRole;

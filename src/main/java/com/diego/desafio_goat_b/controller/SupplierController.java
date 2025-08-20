@@ -1,5 +1,6 @@
 package com.diego.desafio_goat_b.controller;
 
+import com.diego.desafio_goat_b.domain.entity.Supplier;
 import com.diego.desafio_goat_b.dto.SupplierDTO;
 import com.diego.desafio_goat_b.mapper.SupplierMapper;
 import com.diego.desafio_goat_b.service.SupplierService;
@@ -20,14 +21,14 @@ public class SupplierController {
     private final SupplierMapper supplierMapper;
 
     @PostMapping
-    public ResponseEntity<SupplierDTO> create(@RequestBody SupplierDTO dto) {
-        SupplierDTO created = supplierService.create(dto);
+    public ResponseEntity<Supplier> create(@RequestBody SupplierDTO dto) {
+        Supplier created = supplierService.create(dto);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SupplierDTO> update(@PathVariable UUID id, @RequestBody SupplierDTO dto) {
-        SupplierDTO updated = supplierService.update(id, dto);
+    public ResponseEntity<Supplier> update(@PathVariable UUID id, @RequestBody SupplierDTO dto) {
+        Supplier updated = supplierService.update(id, dto);
         return ResponseEntity.ok(updated);
     }
 

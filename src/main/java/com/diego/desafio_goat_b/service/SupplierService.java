@@ -18,19 +18,17 @@ public class SupplierService {
     private final SupplierRepository supplierRepository;
     private final SupplierMapper mapper;
 
-    public SupplierDTO create(SupplierDTO dto) {
+    public Supplier create(SupplierDTO dto) {
         Supplier supplier = new Supplier();
         supplier = mapper.toEntity(supplier, dto);
-        supplierRepository.save(supplier);
-        return dto;
+        return supplierRepository.save(supplier);
     }
 
-    public SupplierDTO update(UUID id, SupplierDTO dto) {
+    public Supplier update(UUID id, SupplierDTO dto) {
         Supplier supplier = supplierRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Supplier with ID " + id + " not found"));
         supplier = mapper.toEntity(supplier, dto);
-        supplierRepository.save(supplier);
-        return dto;
+        return supplierRepository.save(supplier);
     }
 
     public void delete(UUID id) {
