@@ -30,7 +30,6 @@ public class Supplier extends AuditableEntity {
     @Column(name = "name", nullable = false, length = 180)
     private String name;
 
-    // Could be CNPJ/CPF/EIN — keep as string
     @NotBlank
     @Size(max = 32)
     @Column(name = "tax_id", nullable = false, length = 32)
