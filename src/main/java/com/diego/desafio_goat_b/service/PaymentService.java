@@ -4,6 +4,8 @@ import com.diego.desafio_goat_b.domain.entity.AccountPayable;
 import com.diego.desafio_goat_b.domain.entity.Payment;
 import com.diego.desafio_goat_b.domain.entity.User;
 import com.diego.desafio_goat_b.dto.PaymentDTO;
+import com.diego.desafio_goat_b.exception.ResourceNotFoundException;
+import com.diego.desafio_goat_b.mapper.PaymentMapper;
 import com.diego.desafio_goat_b.repository.PaymentRepository;
 import com.diego.desafio_goat_b.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,38 +20,16 @@ import java.util.stream.Collectors;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final PaymentMapper paymentMapper;
     private final UserRepository userRepository;
-    private final AccountPayableService accountPayableService;
-
-
-    public PaymentDTO toDTO(Payment payment) {
-        return new PaymentDTO(
-                payment.getId(),
-                payment.getAccount().getId(),
-                payment.getPaymentDate(),
-                payment.getAmount(),
-                payment.getMethod(),
-                payment.getNote(),
-                payment.getProcessedBy().getId()
-        );
-    }
-
-    public Payment toEntity(Payment payment, PaymentDTO dto) {
-        User processedBy = userRepository.findById(dto.processedBy()).orElseThrow();
-        AccountPayable account = accountPayableService.findById(dto.accountId());
-        payment.setAccount(account);
-        payment.setPaymentDate(dto.paymentDate());
-        payment.setAmount(dto.amount());
-        payment.setMethod(dto.method());
-        payment.setNote(dto.note());
-        payment.setProcessedBy(processedBy);
-        return payment;
-    }
 
 
     public PaymentDTO create(PaymentDTO dto) {
+        User processedBy = userRepository.findById(dto.processedBy()).orElseThrow(() ->
+                new ResourceNotFoundException("User with ID " + dto.processedBy() + " not found"));
         Payment payment = new Payment();
-        payment = toEntity(payment, dto);
+        payment = paymentMapper.toEntity(payment, dto);
+        payment.setProcessedBy(processedBy);
         paymentRepository.save(payment);
         return dto;
     }
@@ -57,7 +37,7 @@ public class PaymentService {
     public PaymentDTO update(UUID id, PaymentDTO dto) {
         Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Payment not found"));
-        payment = toEntity(payment, dto);
+        payment = paymentMapper.toEntity(payment, dto);
         paymentRepository.save(payment);
         return dto;
     }
@@ -74,7 +54,7 @@ public class PaymentService {
     public List<PaymentDTO> findAll() {
         return paymentRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(paymentMapper::toDTO)
                 .collect(Collectors.toList());
     }
 }
