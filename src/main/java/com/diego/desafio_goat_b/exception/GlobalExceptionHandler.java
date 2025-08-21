@@ -34,6 +34,14 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleUserNotFound(UserNotFoundException ex) {
+        return new ResponseEntity<>(
+                buildResponse(HttpStatus.NOT_FOUND, "User Not Found", ex.getMessage()),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Map<String, Object>> handleAuthentication(AuthenticationException ex) {
         return new ResponseEntity<>(
@@ -74,6 +82,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleInvalidPayload(HttpMessageNotReadableException ex) {
         return new ResponseEntity<>(
                 buildResponse(HttpStatus.BAD_REQUEST, "Malformed JSON request", ex.getMessage()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(TokenInvalidOrExpiredException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidPayload(TokenInvalidOrExpiredException ex) {
+        return new ResponseEntity<>(
+                buildResponse(HttpStatus.BAD_REQUEST, "Token invalid or expired", ex.getMessage()),
                 HttpStatus.BAD_REQUEST
         );
     }
