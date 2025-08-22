@@ -20,16 +20,16 @@ public class SupplierController {
     private final SupplierService supplierService;
     private final SupplierMapper supplierMapper;
 
-    @PostMapping
-    public ResponseEntity<Supplier> create(@RequestBody SupplierDTO dto) {
-        Supplier created = supplierService.create(dto);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    @PostMapping("/{userId}")
+    public ResponseEntity<SupplierDTO> create(@PathVariable UUID userId, @RequestBody SupplierDTO dto) {
+        Supplier created = supplierService.create(userId, dto);
+        return new ResponseEntity<>(supplierMapper.toDTO(created), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Supplier> update(@PathVariable UUID id, @RequestBody SupplierDTO dto) {
-        Supplier updated = supplierService.update(id, dto);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<SupplierDTO> update(@PathVariable UUID id, @RequestBody SupplierDTO dto) {
+            Supplier updated = supplierService.update(id, dto);
+            return ResponseEntity.ok(supplierMapper.toDTO(updated));
     }
 
     @DeleteMapping("/{id}")
@@ -46,5 +46,10 @@ public class SupplierController {
     @GetMapping
     public ResponseEntity<List<SupplierDTO>> findAll() {
         return ResponseEntity.ok(supplierService.findAll());
+    }
+
+    @GetMapping("/get-by-user/{userId}")
+    public ResponseEntity<List<SupplierDTO>> findAllWithCreatorByCreatorId(@PathVariable UUID userId) {
+        return ResponseEntity.ok(supplierService.findAllWithCreatorByCreatorId(userId));
     }
 }

@@ -2,7 +2,6 @@ package com.diego.desafio_goat_b.domain.entity;
 
 import com.diego.desafio_goat_b.domain.base.AuditableEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -35,7 +34,6 @@ public class Supplier extends AuditableEntity {
     @Column(name = "tax_id", nullable = false, length = 32)
     private String taxId;
 
-    @Email
     @Size(max = 180)
     @Column(name = "email", length = 180)
     private String email;
@@ -47,5 +45,11 @@ public class Supplier extends AuditableEntity {
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = false)
     @Builder.Default
     private List<AccountPayable> accounts = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
+
+
 }
 

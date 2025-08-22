@@ -44,7 +44,6 @@ public class Payment extends AuditableEntity {
     @Column(name = "note", length = 300)
     private String note;
 
-    // who processed/registered the payment (explicit)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "processed_by")
     private User processedBy;

@@ -1,27 +1,16 @@
 package com.diego.desafio_goat_b.mapper;
 
 import com.diego.desafio_goat_b.domain.entity.AccountPayable;
-import com.diego.desafio_goat_b.domain.entity.Supplier;
 import com.diego.desafio_goat_b.dto.AccountPayableDTO;
-import com.diego.desafio_goat_b.dto.PaymentDTO;
-import com.diego.desafio_goat_b.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
 public class AccountPayableMapper implements BaseMapper<AccountPayable, AccountPayableDTO> {
 
-    private final PaymentMapper paymentMapper;
-
     @Override
     public AccountPayableDTO toDTO(AccountPayable account) {
-        List<PaymentDTO> listPayment = account.getPayments().stream()
-                .map(paymentMapper::toDTO)
-                .collect(Collectors.toList());
         return new AccountPayableDTO(
                 account.getId(),
                 account.getSupplier().getId(),
@@ -32,8 +21,7 @@ public class AccountPayableMapper implements BaseMapper<AccountPayable, AccountP
                 account.getIssueDate(),
                 account.getDueDate(),
                 account.getStatus(),
-                account.getNotes(),
-                listPayment
+                account.getNotes()
         );
     }
 

@@ -2,7 +2,6 @@ package com.diego.desafio_goat_b.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
 import java.util.UUID;
 
 public record SupplierDTO(
@@ -10,7 +9,6 @@ public record SupplierDTO(
         @NotNull String name,
         String taxId,
         @NotNull String email,
-        @NotNull String phone,
-        List<AccountPayableDTO> accounts
+        @NotNull String phone
 ) {
 }

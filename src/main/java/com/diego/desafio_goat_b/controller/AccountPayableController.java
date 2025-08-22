@@ -48,4 +48,9 @@ public class AccountPayableController {
     public ResponseEntity<List<AccountPayableDTO>> findAll() {
         return ResponseEntity.ok(accountPayableService.findAll());
     }
+
+    @GetMapping("/get-by-supplier/{supplierId}")
+    public ResponseEntity<List<AccountPayableDTO>> findBySupplierId(@PathVariable UUID supplierId) {
+        return ResponseEntity.ok(accountPayableService.findBySupplierId(supplierId));
+    }
 }

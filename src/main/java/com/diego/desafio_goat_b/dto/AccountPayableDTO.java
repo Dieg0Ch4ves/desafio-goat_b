@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 public record AccountPayableDTO(
@@ -18,7 +17,6 @@ public record AccountPayableDTO(
         LocalDate issueDate,
         LocalDate dueDate,
         AccountStatus status,
-        String notes,
-        List<PaymentDTO> payments
+        String notes
 ) {
 }

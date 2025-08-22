@@ -61,4 +61,11 @@ public class PaymentService {
                 .map(paymentMapper::toDTO)
                 .toList();
     }
+
+    public List<PaymentDTO> findByAccountId(UUID accountId) {
+        return paymentRepository.findByAccount_Id(accountId)
+                .stream()
+                .map(paymentMapper::toDTO)
+                .toList();
+    }
 }

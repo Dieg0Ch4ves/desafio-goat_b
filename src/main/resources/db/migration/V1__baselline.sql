@@ -17,10 +17,9 @@ create table suppliers (
     tax_id varchar(32) not null,
     email varchar(180),
     phone varchar(40),
-    created_by uuid,
-    updated_by uuid,
     created_at timestamp not null,
     updated_at timestamp not null,
+    created_by uuid,
     constraint uk_supplier_tax_id unique (tax_id)
 );
 
@@ -37,8 +36,6 @@ create table accounts_payable (
     due_date date not null,
     status varchar(20) not null,
     notes varchar(500),
-    created_by uuid,
-    updated_by uuid,
     created_at timestamp not null,
     updated_at timestamp not null
 );
@@ -55,8 +52,6 @@ create table payments (
     method varchar(20) not null,
     note varchar(300),
     processed_by uuid,
-    created_by uuid,
-    updated_by uuid,
     created_at timestamp not null,
     updated_at timestamp not null
 );
@@ -67,20 +62,6 @@ create index idx_payment_date on payments(payment_date);
 alter table suppliers
   add constraint fk_suppliers_created_by foreign key (created_by) references users(id);
 
-alter table suppliers
-  add constraint fk_suppliers_updated_by foreign key (updated_by) references users(id);
-
-alter table accounts_payable
-  add constraint fk_ap_created_by foreign key (created_by) references users(id);
-
-alter table accounts_payable
-  add constraint fk_ap_updated_by foreign key (updated_by) references users(id);
-
 alter table payments
   add constraint fk_payments_processed_by foreign key (processed_by) references users(id);
 
-alter table payments
-  add constraint fk_payments_created_by foreign key (created_by) references users(id);
-
-alter table payments
-  add constraint fk_payments_updated_by foreign key (updated_by) references users(id);

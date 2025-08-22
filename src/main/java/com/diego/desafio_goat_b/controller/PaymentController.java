@@ -46,4 +46,9 @@ public class PaymentController {
     public ResponseEntity<List<PaymentDTO>> findAll() {
         return ResponseEntity.ok(paymentService.findAll());
     }
+
+    @GetMapping("/get-by-account/{accountId}")
+    public ResponseEntity<List<PaymentDTO>> findByAccountId(@PathVariable UUID accountId) {
+        return ResponseEntity.ok(paymentService.findByAccountId(accountId));
+    }
 }
